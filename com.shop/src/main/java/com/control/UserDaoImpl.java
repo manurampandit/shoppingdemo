@@ -1,58 +1,42 @@
 package com.control;
 import java.util.ArrayList;  
 import java.util.List;  
+
 import javax.sql.DataSource;  
+
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.jdbc.core.JdbcTemplate;  
   
-public class UserDaoImpl implements UserDao {  
+public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {  
   
  @Autowired  
  DataSource dataSource;  
   
  public void insertData(User user) {  
-  
-  String sql = "INSERT INTO user "  
-    + "(first_name,last_name, gender, city) VALUES (?, ?, ?,?)";  
-  
-  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-  
-  jdbcTemplate.update(  
-    sql,  
-    new Object[] { user.getFirstName(), user.getLastName(),  
-      user.getGender(), user.getCity() });  
-  
+  super.getSqlSession().insert("User.insertUser", user);
  }  
   
  public List<User> getUserList() {  
-  List userList = new ArrayList();  
-  
-  String sql = "select * from user";  
-  
-  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-  userList = jdbcTemplate.query(sql, new UserRowMapper());  
-  return userList;  
+	 return super.getSqlSession().selectList("User.getUserList");
  }  
   
  @Override  
  public void deleteData(String id) {  
-  String sql = "delete from user where user_id=" + id;  
-  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-  jdbcTemplate.update(sql);  
-  
+   super.getSqlSession().delete("User.deleteUser", id);
  }  
   
  @Override  
  public void updateData(User user) {  
-  
-  String sql = "UPDATE user set first_name = ?,last_name = ?, gender = ?, city = ? where user_id = ?";  
-  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-  
-  jdbcTemplate.update(  
-    sql,  
-    new Object[] { user.getFirstName(), user.getLastName(),  
-      user.getGender(), user.getCity(), user.getUserId() });  
-  
+//  
+//  String sql = "UPDATE user set first_name = ?,last_name = ?, gender = ?, city = ? where user_id = ?";  
+//  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
+//  
+//  jdbcTemplate.update(  
+//    sql,  
+//    new Object[] { user.getFirstName(), user.getLastName(),  
+//      user.getGender(), user.getCity(), user.getUserId() });  
+//  
  }  
   
  @Override  
