@@ -1,4 +1,4 @@
-package com.control;
+package com.control.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.control.objects.Address;
+import com.control.objects.Items;
+import com.control.objects.User;
+import com.control.service.OrdersService;
+import com.control.service.UserService;
 
 @Controller
 public class HomeController {

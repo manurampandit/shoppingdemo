@@ -1,7 +1,10 @@
-package com.control;
+package com.control.controller;
 import java.sql.ResultSet;  
 import java.sql.SQLException;  
+
 import org.springframework.jdbc.core.RowMapper;  
+
+import com.control.objects.User;
   
 public class UserRowMapper implements RowMapper<User> {  
   

@@ -1,4 +1,4 @@
-package com.control;
+package com.control.objects;
 
 public class Address {
 	private int addressId;

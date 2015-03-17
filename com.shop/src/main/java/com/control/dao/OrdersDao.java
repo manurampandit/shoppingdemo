@@ -1,4 +1,6 @@
-package com.control;
+package com.control.dao;
+
+import com.control.objects.Orders;
 
 public interface OrdersDao {  
 	public void insertData(int itemId, int orderId);

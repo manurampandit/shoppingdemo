@@ -1,4 +1,4 @@
-package com.control;
+package com.control.dao.impl;
 import java.util.ArrayList;  
 import java.util.List;  
 
@@ -7,6 +7,10 @@ import javax.sql.DataSource;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.jdbc.core.JdbcTemplate;  
+
+import com.control.controller.UserRowMapper;
+import com.control.dao.UserDao;
+import com.control.objects.User;
   
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {  
   

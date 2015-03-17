@@ -9,13 +9,13 @@
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.control.User" alias="User"/>
-		<typeAlias type="com.control.Orders" alias="order"/>
-		<typeAlias type="com.control.Address" alias="address"/>
+		<typeAlias type="com.control.objects.User" alias="User"/>
+		<typeAlias type="com.control.objects.Orders" alias="order"/>
+		<typeAlias type="com.control.objects.Address" alias="address"/>
 	</typeAliases>
 <mappers>	 
-	<mapper resource="com/control/UserService.xml" /> 
-	<mapper resource="com/control/OrdersService.xml" /> 
+	<mapper resource="service/UserService.xml" /> 
+	<mapper resource="service/OrdersService.xml" /> 
 </mappers> 
 	
 </configuration>

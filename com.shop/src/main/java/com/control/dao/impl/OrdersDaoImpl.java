@@ -1,4 +1,4 @@
-package com.control;
+package com.control.dao.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,9 @@ import javax.sql.DataSource;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.control.dao.OrdersDao;
+import com.control.objects.Orders;
 
 public class OrdersDaoImpl extends SqlSessionDaoSupport implements OrdersDao {  
 
