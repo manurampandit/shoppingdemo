@@ -20,92 +20,124 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 	@Autowired  
-	 UserService userService;  
-	
+	private UserService userService;
+	@Autowired  
+	private OrdersService orderService; 
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Saurabh
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome !!!");
-		
+
 		String message = "Home page for web water" ;
 		model.addAttribute("serverResponseMessage", message );
-		
+
 		return "wwe";
 	}
-	
-	
+
+
 	@RequestMapping("/register")  
-	 public ModelAndView registerUser(@ModelAttribute User user) {  
-	  
-	  List<String> genderList = new ArrayList<String>();  
-	  genderList.add("male");  
-	  genderList.add("female");  
-	  
-	  List<String> cityList = new ArrayList<String>();  
-	  cityList.add("delhi");  
-	  cityList.add("gurgaon");  
-	  cityList.add("meerut");  
-	  cityList.add("noida");  
-	  
-	  Map<String, List> map = new HashMap<String, List>();  
-	  map.put("genderList", genderList);  
-	  map.put("cityList", cityList);  
-	  return new ModelAndView("register", "map", map);  
-	 }  
-	  
-	 @RequestMapping("/insert")  
-	 public String inserData(@ModelAttribute User user) {  
-	  if (user != null)  
-	   userService.insertData(user);  
-	  return "redirect:/getList";  
-	 }  
-	  
-	 @RequestMapping("/getList")  
-	 public ModelAndView getUserLIst() {  
-	  List<User> userList = userService.getUserList();  
-	  return new ModelAndView("userList", "userList", userList);  
-	 }  
-	  
-	 @RequestMapping("/edit")  
-	 public ModelAndView editUser(@RequestParam String id,  
-	   @ModelAttribute User user) {  
-	  
-	  user = userService.getUser(id);  
-	  
-	  List<String> genderList = new ArrayList<String>();  
-	  genderList.add("male");  
-	  genderList.add("female");  
-	  
-	  List<String> cityList = new ArrayList<String>();  
-	  cityList.add("delhi");  
-	  cityList.add("gurgaon");  
-	  cityList.add("meerut");  
-	  cityList.add("noida");  
-	  
-	  Map<String, Object> map = new HashMap<String, Object>();  
-	  map.put("genderList", genderList);  
-	  map.put("cityList", cityList);  
-	  map.put("user", user);  
-	  
-	  return new ModelAndView("userList", "map", map);  
-	  
-	 }  
-	  
-	 @RequestMapping("/update")  
-	 public String updateUser(@ModelAttribute User user) {  
-	  userService.updateData(user);  
-	  return "redirect:/getList";  
-	  
-	 }  
-	  
-	 @RequestMapping("/delete")  
-	 public String deleteUser(@RequestParam String id) {  
-	  System.out.println("id = " + id);  
-	  userService.deleteData(id);  
-	  return "redirect:/getList";  
-	 }  
+	public ModelAndView registerUser(@ModelAttribute User user) {  
+
+		List<String> genderList = new ArrayList<String>();  
+		genderList.add("male");  
+		genderList.add("female");  
+
+		List<String> cityList = new ArrayList<String>();  
+		cityList.add("delhi");  
+		cityList.add("gurgaon");  
+		cityList.add("meerut");  
+		cityList.add("noida");  
+
+		Map<String, List> map = new HashMap<String, List>();  
+		map.put("genderList", genderList);  
+		map.put("cityList", cityList);  
+		return new ModelAndView("register", "map", map);  
+	}
+
+	@RequestMapping("/getAddress")  
+	public ModelAndView getAddress(@RequestParam String itemId, @ModelAttribute Address address) {  
+
+		List<String> stateList = new ArrayList<String>();  
+		stateList.add("Uttar Pradesh");  
+		stateList.add("Delhi");  
+
+		List<String> cityList = new ArrayList<String>();  
+		cityList.add("delhi");  
+		cityList.add("gurgaon");  
+		cityList.add("meerut");  
+		cityList.add("noida");  
+
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("itemId", itemId);
+		map.put("stateList", stateList);  
+		map.put("cityList", cityList);  
+		return new ModelAndView("address", "map", map);  
+	}
+	@RequestMapping("/addAddress") 
+	public String addAddress(@ModelAttribute Items item, @ModelAttribute Address address) {
+		if (null != item && null != address)  
+			orderService.insertData(item, address);  
+		return "redirect:/successPage";
+	}
+	@RequestMapping("/successPage")  
+	public String success() {  
+		return "success";  
+	}
+
+	@RequestMapping("/insert")  
+	public String inserData(@ModelAttribute User user) {  
+		if (user != null)  
+			userService.insertData(user);  
+		return "redirect:/getList";  
+	}  
+
+	@RequestMapping("/getList")  
+	public ModelAndView getUserLIst() {  
+		List<User> userList = userService.getUserList();  
+		return new ModelAndView("userList", "userList", userList);  
+	}  
+
+	@RequestMapping("/edit")  
+	public ModelAndView editUser(@RequestParam String id,  
+			@ModelAttribute User user) {  
+
+		user = userService.getUser(id);  
+
+		List<String> genderList = new ArrayList<String>();  
+		genderList.add("male");  
+		genderList.add("female");  
+
+		List<String> cityList = new ArrayList<String>();  
+		cityList.add("delhi");  
+		cityList.add("gurgaon");  
+		cityList.add("meerut");  
+		cityList.add("noida");  
+
+		Map<String, Object> map = new HashMap<String, Object>();  
+		map.put("genderList", genderList);  
+		map.put("cityList", cityList);  
+		map.put("user", user);  
+
+		return new ModelAndView("userList", "map", map);  
+
+	}  
+
+	@RequestMapping("/update")  
+	public String updateUser(@ModelAttribute User user) {  
+		userService.updateData(user);  
+		return "redirect:/getList";  
+
+	}  
+
+	@RequestMapping("/delete")  
+	public String deleteUser(@RequestParam String id) {  
+		System.out.println("id = " + id);  
+		userService.deleteData(id);  
+		return "redirect:/getList";  
+	}  
 }

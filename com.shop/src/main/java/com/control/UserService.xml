@@ -6,11 +6,11 @@
 	
 	<select id="getUserList" resultType="User">  
 		SELECT user_id userId,first_name firstName,last_name lastName,gender,city
-		FROM user; 
+		FROM users
 	</select>
 	
 	<insert id="insertUser" parameterType="user">
-		INSERT INTO user  (first_name,last_name, gender, city) VALUES 
+		INSERT INTO users  (first_name,last_name, gender, city) VALUES 
     	(#{firstName}, #{lastName}, #{gender} , #{city});
 	</insert>
 	
@@ -25,7 +25,7 @@
 <!-- 	</update> -->
 	
 	<delete id="deleteUser" parameterType="int">
-    	DELETE FROM user
+    	DELETE FROM users
     	WHERE user_id = #{id}
     </delete>
 </mapper>

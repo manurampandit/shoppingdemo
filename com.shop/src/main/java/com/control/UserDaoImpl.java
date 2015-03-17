@@ -42,7 +42,7 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
  @Override  
  public User getUser(String id) {  
   List<User> userList = new ArrayList<User>();  
-  String sql = "select * from user where user_id= " + id;  
+  String sql = "select * from users where user_id= " + id;  
   JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
   userList = jdbcTemplate.query(sql, new UserRowMapper());  
   return userList.get(0);  

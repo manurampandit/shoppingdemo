@@ -10,10 +10,12 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="com.control.User" alias="User"/>
+		<typeAlias type="com.control.Orders" alias="order"/>
+		<typeAlias type="com.control.Address" alias="address"/>
 	</typeAliases>
-	
 <mappers>	 
 	<mapper resource="com/control/UserService.xml" /> 
+	<mapper resource="com/control/OrdersService.xml" /> 
 </mappers> 
 	
 </configuration>
