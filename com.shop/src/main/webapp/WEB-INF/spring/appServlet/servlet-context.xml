@@ -5,14 +5,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		">
-		
-		
+
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
@@ -26,25 +32,27 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-		<beans:bean id="userDao" class="com.control.dao.impl.UserDaoImpl" />
-		<beans:bean id="ordersDao" class="com.control.dao.impl.OrdersDaoImpl" />  
-		<beans:bean id="addressDao" class="com.control.dao.impl.AddressDaoImpl" />  
-		<beans:bean id="userService" class="com.control.service.impl.UserServiceImpl" />
-		<beans:bean id="orderService" class="com.control.service.impl.OrdersServiceImpl" />  
+	<beans:bean id="userDao" class="com.control.dao.impl.UserDaoImpl" />
+	<beans:bean id="ordersDao" class="com.control.dao.impl.OrdersDaoImpl" />
+	<beans:bean id="addressDao" class="com.control.dao.impl.AddressDaoImpl" />
+	<beans:bean id="userService" class="com.control.service.impl.UserServiceImpl" />
+	<beans:bean id="orderService" class="com.control.service.impl.OrdersServiceImpl" />
 
-	<beans:bean name="dataSource" id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<beans:bean name="dataSource" id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />  
-  		<beans:property name="username" value="myshop" />  
-  		<beans:property name="password" value="myshop" /> 
+		<beans:property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<beans:property name="username" value="myshop" />
+		<beans:property name="password" value="myshop" />
 	</beans:bean>
 
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <beans:property name="dataSource" ref="dataSource" />
-        <beans:property name="configLocation" value="WEB-INF/sqlmap-config.xml" />
-    </beans:bean>
-	
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="configLocation" value="WEB-INF/sqlmap-config.xml" />
+	</beans:bean>
+
 	<context:component-scan base-package="com.control.controller" />
-	
+	<context:component-scan base-package="com.control.entities" />
 </beans:beans>
 
