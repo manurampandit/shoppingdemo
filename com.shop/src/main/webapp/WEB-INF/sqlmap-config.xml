@@ -9,8 +9,8 @@
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.control.User" alias="User"/>
-		<typeAlias type="com.control.Items" alias="Items"/>
+		<typeAlias type="com.control.objects.User" alias="User"/>
+		<typeAlias type="com.control.objects.Items" alias="Items"/>
 		<typeAlias type="com.control.objects.Orders" alias="order"/>
 		<typeAlias type="com.control.objects.Address" alias="address"/>
 	</typeAliases>
