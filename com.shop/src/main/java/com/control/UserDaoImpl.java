@@ -20,7 +20,7 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
  public List<User> getUserList() {  
 	 return super.getSqlSession().selectList("User.getUserList");
  }  
-  
+ 
  @Override  
  public void deleteData(String id) {  
    super.getSqlSession().delete("User.deleteUser", id);

@@ -27,13 +27,15 @@
 	</beans:bean>
 
 		<beans:bean id="userDao" class="com.control.UserDaoImpl" />  
-		<beans:bean id="userService" class="com.control.UserServiceImpl" />  
+		<beans:bean id="userService" class="com.control.UserServiceImpl" />
+		<beans:bean id="itemDao" class="com.control.ItemDaoImpl" />  
+		<beans:bean id="itemService" class="com.control.ItemServiceImpl" />  
 
 	<beans:bean name="dataSource" id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url" value="jdbc:mysql://localhost:3306/userdb" />  
   		<beans:property name="username" value="root" />  
-  		<beans:property name="password" value="password" /> 
+  		<beans:property name="password" value="root" /> 
 	</beans:bean>
 
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

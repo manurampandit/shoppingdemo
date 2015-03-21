@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 	@Autowired  
 	 UserService userService;  
+	
+	@Autowired  
+	 ItemService itemService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -108,4 +112,25 @@ public class HomeController {
 	  userService.deleteData(id);  
 	  return "redirect:/getList";  
 	 }  
+	 
+	// Saurabh Arora
+	// To provide Item List for home page
+	 @RequestMapping("/itemList")  
+	 public ModelAndView itemList() {  
+	  List<Items> itemDetails = itemService.getItemList();
+	  
+	  return new ModelAndView("itemDetails", "itemDetails", itemDetails);  
+	 }
+	 
+	 // Saurabh Arora	 
+	 // to be called from home page with item Id
+	 @RequestMapping("/itemDetails")  
+	 public ModelAndView orderDetails(@RequestParam int id) {  
+	  List<Items> itemDetails = itemService.getItemDetails(id);
+	  
+	  return new ModelAndView("itemDetails", "itemDetails", itemDetails);  
+	 }
 }
+
+
+
