@@ -1,4 +1,4 @@
-package com.control;
+package com.control.objects;
 
 public class Orders {
 	private int orderId;

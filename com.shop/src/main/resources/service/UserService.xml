@@ -6,14 +6,16 @@
 	
 	<select id="getUserList" resultType="User">  
 		SELECT user_id userId,first_name firstName,last_name lastName,gender,city
-		FROM user; 
+		FROM users
 	</select>
 	
-	<insert id="insertUser" parameterType="user">
-		INSERT INTO user  (first_name,last_name, gender, city) VALUES 
-    	(#{firstName}, #{lastName}, #{gender} , #{city});
+	<insert id="insertUser" parameterType="user" useGeneratedKeys="true">
+		<selectKey resultType="java.lang.Integer" keyProperty="userId" order="BEFORE">
+            SELECT SEQ_USERID.nextval as userId from dual
+        </selectKey>
+		INSERT INTO users  (user_id,first_name,last_name, gender, city) VALUES 
+    	(#{userId},#{firstName}, #{lastName}, #{gender} , #{city})
 	</insert>
-	
 <!-- 	<update id="updateUser" parameterType="user">  -->
 <!--   		UPDATE user -->
 <!--   		SET -->
@@ -25,7 +27,7 @@
 <!-- 	</update> -->
 	
 	<delete id="deleteUser" parameterType="int">
-    	DELETE FROM user
+    	DELETE FROM users
     	WHERE user_id = #{id}
     </delete>
 </mapper>

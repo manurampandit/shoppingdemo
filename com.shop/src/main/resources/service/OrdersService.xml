@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Orders">
+	<insert id="addAddress" parameterType="address" useGeneratedKeys="true">
+		<selectKey resultType="java.lang.Integer" keyProperty="addressId" order="BEFORE">
+            SELECT SEQ_ADDRESSID.nextval as addressId from dual
+        </selectKey>
+		INSERT INTO address  (ADDRESSID,STREETNAME,CITY,STATE,PINCODE) VALUES 
+    	(#{addressId},#{streetName}, #{city}, #{state} , #{pincode})
+    	
+	</insert>
+	
+	<!-- <insert id="addAddress" parameterType="address">
+		INSERT INTO address  (ADDRESSID,STREETNAME,CITY,STATE,PINCODE) VALUES 
+    	(SEQ_ADDRESSID.nextval,#{streetName}, #{city}, #{state} , #{pincode})
+    	
+	</insert> -->
+	
+	<insert id="addOrder" parameterType="order" useGeneratedKeys="true">
+		<selectKey resultType="java.lang.Integer" keyProperty="orderId" order="BEFORE">
+            SELECT SEQ_ORDERID.nextval AS orderId from dual
+        </selectKey>
+		INSERT INTO ORDERS(ORDERID) VALUES (#{orderId})
+    	
+	</insert>
+	
+	<insert id="orderDet" parameterType="java.util.Map">
+		INSERT INTO itemsinorder  (ITEMID, ORDERID) VALUES 
+    	(#{itemId}, #{orderId})
+	</insert>
+	
+	<insert id="orderDetAdd" parameterType="java.util.Map">
+		INSERT INTO orderaddress (ADDRESSID, ORDERID) VALUES 
+    	(#{addressId}, #{orderId})
+	</insert>
+	
+	
+</mapper>

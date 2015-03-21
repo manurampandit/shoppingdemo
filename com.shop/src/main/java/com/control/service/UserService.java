@@ -1,5 +1,7 @@
-package com.control;
+package com.control.service;
 import java.util.List;  
+
+import com.control.objects.User;
   
 public interface UserService {  
   
