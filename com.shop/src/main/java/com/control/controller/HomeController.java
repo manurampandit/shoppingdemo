@@ -72,7 +72,7 @@ public class HomeController {
 	@RequestMapping("/getAddress")  
 	public ModelAndView getAddress(@RequestParam String itemId, @ModelAttribute Address address) {  
 
-		List<String> stateList = new ArrayList<String>();  
+		List<String> stateList = new ArrayList<String>();
 		stateList.add("Uttar Pradesh");  
 		stateList.add("Delhi");  
 
@@ -89,11 +89,17 @@ public class HomeController {
 		return new ModelAndView("address", "map", map);  
 	}
 	@RequestMapping("/addAddress") 
-	public String addAddress(@ModelAttribute Items item, @ModelAttribute Address address) {
+	public ModelAndView addAddress(@RequestParam String itemId, @ModelAttribute Address address) {
+		Items item = new Items();
+		item.setItemId(Integer.parseInt(itemId));
 		if (null != item && null != address)  
-			orderService.insertData(item, address);  
-		return "redirect:/successPage";
+			orderService.insertData(item, address);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("item", item);
+		map.put("address", address);
+		return new ModelAndView("confirm", "map", map);
 	}
+	
 	@RequestMapping("/successPage")  
 	public String success() {  
 		return "success";  

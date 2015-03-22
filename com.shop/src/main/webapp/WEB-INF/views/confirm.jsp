@@ -35,37 +35,41 @@ td {
  <b> Address Form </b>   
   
  <div>  
-   <form:form method="post" action="/control/addAddress" modelAttribute="address">  
+   <form:form method="post" action="/control/successPage" modelAttribute="address">  
    
    
     <table>  
      <tr>  
       <td>Street Name :</td>  
-      <td><form:input path="streetName" /></td>  
+      <td>${map.address.streetName}</td>  
      </tr>  
       
      <tr>  
       <td>City :</td>  
-      <td><form:select path="city" items="${map.cityList}" /></td>  
+      <td>${map.address.city}</td>  
      </tr>
      
      <tr>  
       <td>State :</td>  
-      <td><form:radiobuttons path="state" items="${map.stateList}" /></td>  
+      <td>${map.address.state}</td>  
      </tr> 
      
      <tr>  
       <td>Pin Code:</td>  
-      <td><form:input path="pincode" /></td>  
+      <td>${map.address.pincode}</td>  
+     </tr>
+     
+     <tr>  
+      <td>Item Id:</td>  
+      <td>${map.item.itemId}</td>  
      </tr>
      
      <tr>  
       <td> </td>  
-      <td><input type="submit" value="Save" /></td>  
+      <td><input type="submit" value="Confirm" /></td>  
      </tr> 
       
-    </table>
-    <input hidden="false" value="${map.itemId}" name="itemId" type="number">  
+    </table>  
   </form:form>  
   </div>  
    
