@@ -9,6 +9,6 @@ public interface UserService {
  public List<Users> getUserList();  
  public void deleteData(Integer id);  
  public Users getUser(Integer id);  
- public void updateData(Users user);  
+ public void updateData(Users user,int id);  
   
 }  
