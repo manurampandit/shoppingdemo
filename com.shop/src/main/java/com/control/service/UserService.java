@@ -1,14 +1,14 @@
 package com.control.service;
 import java.util.List;  
 
-import com.control.objects.User;
-  
+import com.control.model.Users;
+
 public interface UserService {  
   
- public void insertData(User user);  
- public List<User> getUserList();  
- public void deleteData(String id);  
- public User getUser(String id);  
- public void updateData(User user);  
+ public void insertData(Users user);  
+ public List<Users> getUserList();  
+ public void deleteData(Integer id);  
+ public Users getUser(Integer id);  
+ public void updateData(Users user);  
   
 }  

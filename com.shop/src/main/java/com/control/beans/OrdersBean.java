@@ -1,6 +1,6 @@
-package com.control.objects;
+package com.control.beans;
 
-public class Orders {
+public class OrdersBean {
 	private int orderId;
 
 	public int getOrderId() {

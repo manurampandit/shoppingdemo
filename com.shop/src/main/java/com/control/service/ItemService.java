@@ -1,7 +1,7 @@
 package com.control.service;
-import java.util.List;  
+import java.util.List;
 
-import com.control.objects.Items;
+import com.control.model.Items;
   
 public interface ItemService {  
  public List<Items> getItemList();

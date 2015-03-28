@@ -35,7 +35,7 @@ td {
  <b> Registration Form </b>   
   
  <div>  
-   <form:form method="post" action="/control/insert" modelAttribute="user">  
+   <form:form method="post" action="/control/insert" modelAttribute="usersBean">  
     <table>  
      <tr>  
       <td>First Name :</td>  

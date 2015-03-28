@@ -1,8 +1,8 @@
-package com.control.objects;
+package com.control.beans;
 
 import java.math.BigDecimal;
 
-public class Items {
+public class ItemsBean {
 	private int itemId;
 	private String itemName;
 	private BigDecimal price;

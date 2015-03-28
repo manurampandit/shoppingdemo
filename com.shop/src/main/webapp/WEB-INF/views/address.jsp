@@ -35,7 +35,7 @@ td {
  <b> Address Form </b>   
   
  <div>  
-   <form:form method="post" action="/control/addAddress" modelAttribute="address">  
+   <form:form method="post" action="/control/addAddress" modelAttribute="addressBean">  
    
    
     <table>  

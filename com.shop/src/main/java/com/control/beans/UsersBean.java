@@ -1,5 +1,5 @@
-package com.control.objects;
-public class User {  
+package com.control.beans;
+public class UsersBean {  
   
  private int userId;  
  private String firstName;  

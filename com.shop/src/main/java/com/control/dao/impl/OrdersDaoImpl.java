@@ -1,36 +1,41 @@
 package com.control.dao.impl;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.sql.DataSource;
 
-import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.control.dao.OrdersDao;
-import com.control.objects.Orders;
+import com.control.model.OrderDetails;
+import com.control.model.OrderDetailsId;
+import com.control.model.Orders;
 
-public class OrdersDaoImpl extends SqlSessionDaoSupport implements OrdersDao {  
+public class OrdersDaoImpl implements OrdersDao {  
 
 	@Autowired  
-	DataSource dataSource;  
+	DataSource dataSource;
+	@Autowired
+	private SessionFactory sessionFactory;
+	@Autowired
+	private PlatformTransactionManager ptm;
 
-	public void insertData(Orders order) {  
-		super.getSqlSession().insert("Orders.addOrder", order);
+	public void insertData(final Orders order) {
+		TransactionTemplate tx = new TransactionTemplate(ptm);
+
+		tx.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				sessionFactory.getCurrentSession().saveOrUpdate(order);
+				OrderDetails orderDet = new OrderDetails();
+				OrderDetailsId id = new OrderDetailsId(order.getOrderId(), order.getOrderId(), order.getOrderId());
+				orderDet.setId(id);
+				sessionFactory.getCurrentSession().saveOrUpdate(orderDet);
+				
+				System.out.println("Order saved");
+			}
+		});
 	}  
-
-	public void insertData(int itemId, int orderId){
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("itemId", itemId);
-		map.put("orderId", orderId);
-		super.getSqlSession().insert("Orders.orderDet",map);
-	}
-	
-	public void insertDataAdd(int addressId, int orderId){
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("addressId", addressId);
-		map.put("orderId", orderId);
-		super.getSqlSession().insert("Orders.orderDetAdd",map);
-	}
 }  

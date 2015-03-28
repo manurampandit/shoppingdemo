@@ -1,7 +1,8 @@
 package com.control.service;
 
-import com.control.objects.Address;
-import com.control.objects.Items;
+import com.control.model.Address;
+import com.control.model.Items;
+
 
 public interface OrdersService {  
 

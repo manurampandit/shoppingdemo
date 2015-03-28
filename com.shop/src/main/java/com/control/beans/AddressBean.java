@@ -1,6 +1,6 @@
-package com.control.objects;
+package com.control.beans;
 
-public class Address {
+public class AddressBean {
 	private int addressId;
 	private String streetName;
 	private String city;
