@@ -3,232 +3,160 @@ package com.control.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.control.beans.AddressBean;
-import com.control.beans.ItemsBean;
-import com.control.beans.UsersBean;
 import com.control.model.Address;
 import com.control.model.Items;
 import com.control.model.Users;
 import com.control.service.ItemService;
 import com.control.service.OrdersService;
 import com.control.service.UserService;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 @Controller
+@RequestMapping(value = "/data")
 public class HomeController {
-	@Autowired  
+	@Autowired
 	private UserService userService;
-	@Autowired  
-	private OrdersService orderService; 
+	@Autowired
+	private OrdersService orderService;
 
-	@Autowired  
-	 ItemService itemService;
+	@Autowired
+	ItemService itemService;
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(HomeController.class);
 
-	/**
-	 * Saurabh
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome !!!");
-
-		String message = "Home page for web water" ;
-		model.addAttribute("serverResponseMessage", message );
-
-		return "wwe";
+	// Just A TEST API
+	@RequestMapping(value = "/test/{name}", method = RequestMethod.GET)
+	public @ResponseBody Users getShopInJSON(@PathVariable String name) {
+		Users shop = new Users();
+		logger.info(shop.toString());
+		shop.setFirstName("vaibhav");
+		return shop;
 	}
 
+	// User Apis -- Start
 
-	@RequestMapping("/register")  
-	public ModelAndView registerUser(@ModelAttribute UsersBean user) {  
+	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
+	public @ResponseBody String insertUserData(
+			@Context HttpServletRequest httpRequest, @RequestBody String strBody) {
+		JsonElement jsonElement = null;
+		Gson gson = new Gson();
+		jsonElement = new JsonParser().parse(strBody);
+		Users user = gson.fromJson(jsonElement, Users.class);
 
-		List<String> genderList = new ArrayList<String>();  
-		genderList.add("male");  
-		genderList.add("female");  
-
-		List<String> cityList = new ArrayList<String>();  
-		cityList.add("delhi");  
-		cityList.add("gurgaon");  
-		cityList.add("meerut");  
-		cityList.add("noida");  
-
-		Map<String, List> map = new HashMap<String, List>();  
-		map.put("genderList", genderList);  
-		map.put("cityList", cityList);  
-		return new ModelAndView("register", "map", map);  
+		if (user != null)
+			userService.insertData(user);
+		return "success";
 	}
 
-	@RequestMapping("/getAddress")  
-	public ModelAndView getAddress(@RequestParam String itemId, @ModelAttribute AddressBean addressBean) {  
+	@RequestMapping(value = "/getUserList", method = RequestMethod.GET)
+	public @ResponseBody List<Users> getUserList(
+			@Context HttpServletRequest httpRequest) {
+		List<Users> userList = userService.getUserList();
+		return userList;
+	}
 
+	@RequestMapping(value = "/getUserListById", method = RequestMethod.GET)
+	public @ResponseBody Users getUserListById(
+			@Context HttpServletRequest httpRequest,
+			@RequestParam(value = "uid", required = false) String uid) {
+		Users user = userService.getUser(Integer.parseInt(uid));
+		return user;
+	}
+
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	public @ResponseBody String deleteUser(
+			@Context HttpServletRequest httpRequest,
+			@RequestParam(value = "uid", required = false) String uid) {
+		userService.deleteData(Integer.parseInt(uid));
+		return "success";
+	}
+
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	public @ResponseBody String updateUser(
+			@Context HttpServletRequest httpRequest,
+			@RequestBody String strBody,
+			@RequestParam(value = "uid", required = false) String uid) {
+		JsonElement jsonElement = null;
+		Gson gson = new Gson();
+		jsonElement = new JsonParser().parse(strBody);
+		Users user = gson.fromJson(jsonElement, Users.class);
+		userService.updateData(user, Integer.parseInt(uid));
+		return "success";
+	}
+
+	// User Apis -- End
+
+	@RequestMapping(value = "/getaddress", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getAddress(
+			@Context HttpServletRequest httpRequest,
+			@RequestParam(value = "itemid", required = false) String itemid) {
 		List<String> stateList = new ArrayList<String>();
-		stateList.add("Uttar Pradesh");  
-		stateList.add("Delhi");  
-
-		List<String> cityList = new ArrayList<String>();  
-		cityList.add("delhi");  
-		cityList.add("gurgaon");  
-		cityList.add("meerut");  
-		cityList.add("noida");  
-
-		Map<String, Object> map = new HashMap<String, Object>(); 
-		map.put("itemId", itemId);
-		map.put("stateList", stateList);  
-		map.put("cityList", cityList);  
-		return new ModelAndView("address", "map", map);  
+		stateList.add("Uttar Pradesh");
+		stateList.add("Delhi");
+		List<String> cityList = new ArrayList<String>();
+		cityList.add("delhi");
+		cityList.add("gurgaon");
+		cityList.add("meerut");
+		cityList.add("noida");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("itemId", itemid);
+		map.put("stateList", stateList);
+		map.put("cityList", cityList);
+		return map;
 	}
-	@RequestMapping("/addAddress") 
-	public ModelAndView addAddress(@RequestParam String itemId, @ModelAttribute AddressBean addressBean) {
+
+	@RequestMapping(value = "/addAddress", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> addAddress(
+			@Context HttpServletRequest httpRequest,
+			@RequestParam(value = "itemid", required = false) String itemid,
+			@RequestBody String strBody) {
 		Items item = new Items();
-		item.setItemId(Integer.parseInt(itemId));
-		Address address = prepareModel(addressBean);
-		if (null != item && null != address)  
+		item.setItemId(Integer.parseInt(itemid));
+		JsonElement jsonElement = null;
+		Gson gson = new Gson();
+		jsonElement = new JsonParser().parse(strBody);
+		Address address = gson.fromJson(jsonElement, Address.class);
+		if (null != item && null != address)
 			orderService.insertData(item, address);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("item", item);
 		map.put("address", address);
-		return new ModelAndView("confirm", "map", map);
-	}
-	
-	@RequestMapping("/successPage")  
-	public String success() {  
-		return "success";  
+		return map;
 	}
 
-	@RequestMapping("/insert")  
-	public String inserData(@ModelAttribute UsersBean userBean) {  
-		if (userBean != null) {
-			Users user = prepareUserModel(userBean);
-			userService.insertData(user);
-		}
-		return "redirect:/getList";  
-	}  
-
-	@RequestMapping("/getList")  
-	public ModelAndView getUserLIst() {  
-		List<Users> userList = userService.getUserList(); 
-		List<UsersBean> userBeanList = new ArrayList<UsersBean>();
-		for(Users user:userList){
-			userBeanList.add(prepareUserBean(user));
-		}
-		return new ModelAndView("userList", "userList", userBeanList);  
-	}  
-
-	@RequestMapping("/edit")  
-	public ModelAndView editUser(@RequestParam String id,  
-			@ModelAttribute UsersBean userBean) {  
-
-		Users user = userService.getUser(Integer.parseInt(id));  
-		userBean = prepareUserBean(user);
-		List<String> genderList = new ArrayList<String>();  
-		genderList.add("male");  
-		genderList.add("female");  
-
-		List<String> cityList = new ArrayList<String>();  
-		cityList.add("delhi");  
-		cityList.add("gurgaon");  
-		cityList.add("meerut");  
-		cityList.add("noida");  
-
-		Map<String, Object> map = new HashMap<String, Object>();  
-		map.put("genderList", genderList);  
-		map.put("cityList", cityList);  
-		map.put("user", userBean);  
-
-		return new ModelAndView("userList", "map", map);  
-
-	}  
-
-	@RequestMapping("/update")  
-	public String updateUser(@ModelAttribute UsersBean userBean) {
-		Users user = prepareUserModel(userBean);
-		userService.updateData(user);  
-		return "redirect:/getList";  
-
-	}  
-
-	@RequestMapping("/delete")  
-	public String deleteUser(@RequestParam String id) {  
-		System.out.println("id = " + id);  
-		userService.deleteData(Integer.parseInt(id));  
-		return "redirect:/getList";  
-	}  
 	// Saurabh Arora
 	// To provide Item List for home page
-	 @RequestMapping("/itemList")  
-	 public ModelAndView itemList() {  
-	  List<Items> itemsList = itemService.getItemList();
-	  List<ItemsBean> itemDetails = new ArrayList<ItemsBean>();
-	  for(Items item:itemsList){
-		  itemDetails.add(prepareItemsBean(item));
-	  }
-	  return new ModelAndView("itemDetails", "itemDetails", itemDetails);  
-	 }
-	 
-	 // Saurabh Arora	 
-	 // to be called from home page with item Id
-	 @RequestMapping("/itemDetails")  
-	 public ModelAndView orderDetails(@RequestParam int id) {  
-	  List<Items> items = itemService.getItemDetails(id);
-	  List<ItemsBean> itemDetails = new ArrayList<ItemsBean>();
-	  for(Items item:items){
-		  itemDetails.add(prepareItemsBean(item));
-	  }
-	  return new ModelAndView("itemDetails", "itemDetails", itemDetails);  
-	 }
-	 
-	 private Address prepareModel(AddressBean addressBean){
-			Address address = new Address();
-			address.setAddressId(addressBean.getAddressId());
-			address.setCity(addressBean.getCity());
-			address.setStreetName(addressBean.getStreetName());
-			address.setPincode(addressBean.getPincode());
-			address.setState(addressBean.getState());
-			address.setGuestAdd("Y");
-			
-			return address;
-		}
-	 
-	 private ItemsBean prepareItemsBean(Items items){
-			ItemsBean bean = new ItemsBean();
-			bean.setItemId(items.getItemId());
-			bean.setItemName(items.getItemName());
-			bean.setPrice(items.getPrice());
-			bean.setPicPath(items.getImagePath());
-			return bean;
-		}
-	 private Users prepareUserModel(UsersBean userBean){
-		 Users user = new Users();
-		 user.setCity(userBean.getCity());
-		 user.setFirstName(userBean.getFirstName());
-		 user.setGender(userBean.getGender());
-		 user.setLastName(userBean.getLastName());
-		 user.setUserId(userBean.getUserId());
-		 return user;
-	 }
-	 
-	 private UsersBean prepareUserBean(Users user){
-		 UsersBean userBean = new UsersBean();
-		 userBean.setCity(user.getCity());
-		 userBean.setFirstName(user.getFirstName());
-		 userBean.setGender(user.getGender());
-		 userBean.setLastName(user.getLastName());
-		 userBean.setUserId(user.getUserId());
-		 return userBean;
-	 }
+	@RequestMapping(value = "/itemList", method = RequestMethod.GET)
+	public @ResponseBody List<Items> itemList(
+			@Context HttpServletRequest httpRequest) {
+		List<Items> itemsList = itemService.getItemList();
+		return itemsList;
+	}
 
+	// Saurabh Arora
+	// to be called from home page with item Id
+	@RequestMapping(value = "/itemDetails", method = RequestMethod.GET)
+	public List<Items> orderDetails(@RequestParam int id) {
+		List<Items> itemDetails = itemService.getItemDetails(id);
+		return itemDetails;
+	}
 }
