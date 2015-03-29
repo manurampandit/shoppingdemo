@@ -71,17 +71,13 @@
 				<beans:value>com.control.model</beans:value>
 			</beans:array>
 		</beans:property>
-		<!-- <beans:property name="annotatedClasses"> <beans:list> <beans:value>com.control.model.Address</beans:value> 
-			<beans:value>com.control.model.Items</beans:value> <beans:value>com.control.model.Orders</beans:value> 
-			<beans:value>com.control.model.Users</beans:value> <beans:value>com.control.model.OrderDetails</beans:value> 
-			<beans:value>com.control.model.Announcment</beans:value> </beans:list> </beans:property> -->
 		<beans:property name="hibernateProperties">
 			<beans:props>
 				<!-- <beans:prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</beans:prop> -->
 				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect
 				</beans:prop>
 				<beans:prop key="hibernate.show_sql">true</beans:prop>
-			<!--  	<beans:prop key="hibernate.hbm2ddl.auto">create</beans:prop> -->
+			  	<beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
 				<beans:prop key="hibernate.cache.provider_class">
 					org.hibernate.cache.NoCacheProvider
 				</beans:prop>
