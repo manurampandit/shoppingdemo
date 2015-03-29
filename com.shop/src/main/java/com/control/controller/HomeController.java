@@ -48,6 +48,16 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
+	public HomeController() {
+		super();
+		try {
+			userService.indexUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// Just A TEST API
 	@RequestMapping(value = "/test/{name}", method = RequestMethod.GET)
 	public @ResponseBody Users getShopInJSON(@PathVariable String name) {
@@ -76,6 +86,14 @@ public class HomeController {
 	public @ResponseBody List<Users> getUserList(
 			@Context HttpServletRequest httpRequest) {
 		List<Users> userList = userService.getUserList();
+		return userList;
+	}
+
+	@RequestMapping(value = "/searchUser", method = RequestMethod.GET)
+	public @ResponseBody List<Users> searchUserList(
+			@Context HttpServletRequest httpRequest,
+			@RequestParam(value = "data", required = false) String data) {
+		List<Users> userList = userService.searchUser(data);
 		return userList;
 	}
 

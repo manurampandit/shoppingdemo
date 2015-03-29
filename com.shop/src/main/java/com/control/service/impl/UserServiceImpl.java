@@ -16,6 +16,11 @@ public class UserServiceImpl implements UserService {
 	UserDao userdao;
 
 	@Override
+	public void indexUser() throws Exception {
+		userdao.indexUser();
+	}
+
+	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void insertData(Users user) {
 		userdao.insertData(user);
@@ -46,4 +51,11 @@ public class UserServiceImpl implements UserService {
 		userdao.updateData(user, id);
 
 	}
+
+	@Override
+	public List<Users> searchUser(String data) {
+		return userdao.searchUser(data);
+
+	}
+
 }

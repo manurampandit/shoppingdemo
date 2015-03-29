@@ -14,5 +14,9 @@ public interface UserDao {
 	public void deleteData(Integer id);
 
 	public Users getUser(Integer id);
+	
+	public void indexUser() throws Exception;
+
+	public List<Users> searchUser(String data);
 
 }
