@@ -32,7 +32,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 @Controller
-@RequestMapping(value = "/data")
 public class HomeController {
 	@Autowired
 	private UserService userService;
