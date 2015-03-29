@@ -175,6 +175,22 @@
 			<version>${version.hibernate}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-engine</artifactId>
+			<version>4.3.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>4.3.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>4.3.0.Final</version>
+		</dependency>
+
 		<!-- Jackson JSON Mapper -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>

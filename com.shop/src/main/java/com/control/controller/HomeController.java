@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.control.model.Address;
+import com.control.model.Announcment;
 import com.control.model.Items;
 import com.control.model.Users;
+import com.control.service.AnnouncmentService;
 import com.control.service.ItemService;
 import com.control.service.OrdersService;
 import com.control.service.UserService;
@@ -36,6 +38,9 @@ public class HomeController {
 	private UserService userService;
 	@Autowired
 	private OrdersService orderService;
+
+	@Autowired
+	private AnnouncmentService announcmentService;
 
 	@Autowired
 	ItemService itemService;
@@ -158,5 +163,33 @@ public class HomeController {
 	public List<Items> orderDetails(@RequestParam int id) {
 		List<Items> itemDetails = itemService.getItemDetails(id);
 		return itemDetails;
+	}
+
+	@RequestMapping(value = "/addAnnouncment", method = RequestMethod.POST)
+	public @ResponseBody String addAnnouncment(
+			@Context HttpServletRequest httpRequest, @RequestBody String strBody) {
+		JsonElement jsonElement = null;
+		Gson gson = new Gson();
+
+		jsonElement = new JsonParser().parse(strBody);
+		Announcment announcment = gson.fromJson(jsonElement, Announcment.class);
+
+		if (announcment != null)
+			announcmentService.insertData(announcment);
+		return "success";
+	}
+
+	@RequestMapping(value = "/getAnnouncmentById", method = RequestMethod.GET)
+	public @ResponseBody List<Announcment> getAnnouncmentById(
+			@Context HttpServletRequest httpRequest,
+			@RequestBody String strBody,
+			@RequestParam(value = "uid", required = false) String uid) {
+		return announcmentService.getAnnouncmentList(uid);
+	}
+
+	@RequestMapping(value = "/getAnnouncment", method = RequestMethod.GET)
+	public @ResponseBody List<Announcment> getAnnouncment(
+			@Context HttpServletRequest httpRequest, @RequestBody String strBody) {
+		return announcmentService.getAnnouncmentList();
 	}
 }

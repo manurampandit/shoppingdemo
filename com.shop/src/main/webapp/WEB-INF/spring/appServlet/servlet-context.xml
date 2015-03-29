@@ -11,6 +11,15 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 
+	<beans:bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:/config/data-jdbc.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
@@ -26,27 +35,28 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<!-- Dao Registration -->
 	<beans:bean id="itemDao" class="com.control.dao.impl.ItemDaoImpl" />
-	<beans:bean id="itemService" class="com.control.service.impl.ItemServiceImpl" />
 	<beans:bean id="userDao" class="com.control.dao.impl.UserDaoImpl" />
 	<beans:bean id="ordersDao" class="com.control.dao.impl.OrdersDaoImpl" />
 	<beans:bean id="addressDao" class="com.control.dao.impl.AddressDaoImpl" />
+	<beans:bean id="announcmentDao" class="com.control.dao.impl.AnnouncmentDaoImpl" />
+
+
+	<!-- Service Registration -->
+
+	<beans:bean id="itemService" class="com.control.service.impl.ItemServiceImpl" />
 	<beans:bean id="userService" class="com.control.service.impl.UserServiceImpl" />
+	<beans:bean id="announcmentService"
+		class="com.control.service.impl.AnnouncmentServiceImpl" />
 	<beans:bean id="orderService" class="com.control.service.impl.OrdersServiceImpl" />
 
 	<beans:bean name="dataSource" id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<beans:property name="url"
-			value="jdbc:mysql://localhost:3306/shopdb" />
-		<beans:property name="username" value="root" />
-		<beans:property name="password" value="password" />
-
-		<!-- <beans:bean name="dataSource" id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-			<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" 
-			/> <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" 
-			/> <beans:property name="username" value="myshop_new" /> <beans:property 
-			name="password" value="myshop_new" /> -->
+		<beans:property name="driverClassName" value="${database.driver}" />
+		<beans:property name="url" value="${database.url}" />
+		<beans:property name="username" value="${database.user}" />
+		<beans:property name="password" value="${database.password}" />
 	</beans:bean>
 
 	<!-- <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
@@ -56,15 +66,15 @@
 	<beans:bean
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" id="sessionFactory">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
-		<beans:property name="annotatedClasses">
-			<beans:list>
-				<beans:value>com.control.model.Address</beans:value>
-				<beans:value>com.control.model.Items</beans:value>
-				<beans:value>com.control.model.Orders</beans:value>
-				<beans:value>com.control.model.Users</beans:value>
-				<beans:value>com.control.model.OrderDetails</beans:value>
-			</beans:list>
+		<beans:property name="packagesToScan">
+			<beans:array>
+				<beans:value>com.control.model</beans:value>
+			</beans:array>
 		</beans:property>
+		<!-- <beans:property name="annotatedClasses"> <beans:list> <beans:value>com.control.model.Address</beans:value> 
+			<beans:value>com.control.model.Items</beans:value> <beans:value>com.control.model.Orders</beans:value> 
+			<beans:value>com.control.model.Users</beans:value> <beans:value>com.control.model.OrderDetails</beans:value> 
+			<beans:value>com.control.model.Announcment</beans:value> </beans:list> </beans:property> -->
 		<beans:property name="hibernateProperties">
 			<beans:props>
 				<!-- <beans:prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</beans:prop> -->
@@ -72,6 +82,12 @@
 				</beans:prop>
 				<beans:prop key="hibernate.show_sql">true</beans:prop>
 				<beans:prop key="hibernate.hbm2ddl.auto">create</beans:prop>
+				<beans:prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.NoCacheProvider
+				</beans:prop>
+				<beans:prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.impl.FSDirectoryProvider
+				</beans:prop>
+				<beans:prop key="hibernate.search.default.indexBase">classpath:/indexes</beans:prop>
 			</beans:props>
 		</beans:property>
 	</beans:bean>
