@@ -28,7 +28,6 @@ public class Users implements Serializable {
 	@Column(name = "firstName")
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	private String firstName;
-
 	@Column(name = "lastName")
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	private String lastName;
