@@ -47,16 +47,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
-	public HomeController() {
-		super();
-		try {
-			userService.indexUser();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	
 	// Just A TEST API
 	@RequestMapping(value = "/test/{name}", method = RequestMethod.GET)
 	public @ResponseBody Users getShopInJSON(@PathVariable String name) {
